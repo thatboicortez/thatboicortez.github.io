@@ -106,15 +106,26 @@
   background: rgba(0,0,0,0.45);
   border-color: rgba(255,255,255,0.14);
 }
-    
-.folder-card{
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
 
 .folder-card:active{
   transform: translateY(-1px) scale(0.985);
 }
 
+.folder-card.is-opening{
+  transform: translateY(-1px) scale(0.985);
+}
+    /* hover: чуть приподнимается и “приближается” */
+.folder-card{
+  transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+  will-change: transform;
+}
+
+.folder-card:hover{
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+}
+    /* клик / открытие */
+.folder-card:active,
 .folder-card.is-opening{
   transform: translateY(-1px) scale(0.985);
 }
