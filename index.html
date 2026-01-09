@@ -5,6 +5,11 @@
   <title>Perfect Schilders & Decoratie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- ШРИФТЫ (бесплатно) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --bg:#0f0f0f;
@@ -20,13 +25,13 @@
 
     body{
       margin:0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Montserrat', Arial, Helvetica, sans-serif;
       background: var(--bg);
       color: var(--text);
     }
 
     header{
-      padding:60px 20px;
+      padding:60px 20px 44px;
       text-align:center;
       background: linear-gradient(135deg, #1f1f1f, #111);
     }
@@ -34,11 +39,36 @@
       font-size:42px;
       margin:0 0 10px 0;
       letter-spacing: 0.3px;
+      font-weight: 700;
     }
     header p{
       margin:0;
       color: var(--muted);
       font-size:18px;
+      font-weight: 400;
+    }
+
+    /* ===== СЛОГАН (как на примере) ===== */
+    .slogan{
+      margin-top: 26px;
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+    }
+    .slogan-small{
+      font-size: 14px;
+      color: rgba(255,255,255,0.78);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .slogan-big{
+      font-size: clamp(34px, 4.6vw, 64px);
+      line-height: 1.02;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      font-weight: 200; /* тонкий “премиум” как на скрине */
+      color: #fff;
     }
 
     section{
@@ -51,6 +81,7 @@
       text-align:center;
       margin:0 0 40px 0;
       font-size:32px;
+      font-weight: 700;
     }
 
     /* ===== Папки (Windows-like cards) ===== */
@@ -78,7 +109,7 @@
 
     .folder-thumb{
       width:100%;
-      aspect-ratio: 16/10; /* красивое превью как на твоём примере */
+      aspect-ratio: 16/10;
       background: #0b0b0b;
       overflow:hidden;
       position:relative;
@@ -135,8 +166,8 @@
     }
     .img-tile img{
       width:100%;
-      aspect-ratio: 1/1;          /* КВАДРАТ */
-      object-fit: cover;          /* не растягивает */
+      aspect-ratio: 1/1;
+      object-fit: cover;
       display:block;
     }
 
@@ -155,6 +186,7 @@
       cursor:pointer;
       font-size:16px;
       transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      font-family: inherit;
     }
     #backBtn:hover{
       background: rgba(255,255,255,0.12);
@@ -213,6 +245,7 @@
       #folders.folders-grid{ grid-template-columns: 1fr; }
       #images.images-grid{ grid-template-columns: repeat(2, 1fr); }
       header h1{ font-size: 34px; }
+      .slogan-big{ letter-spacing: 1.1px; }
     }
   </style>
 </head>
@@ -221,6 +254,12 @@
   <header>
     <h1>Perfect Schilders & Decoratie</h1>
     <p>Creative Portfolio</p>
+
+    <!-- СЛОГАН -->
+    <div class="slogan">
+      <div class="slogan-small">Quality You Can Trust</div>
+      <div class="slogan-big">Transform Your Home Today</div>
+    </div>
   </header>
 
   <section>
