@@ -295,6 +295,31 @@
       #folders.folders-grid{grid-template-columns:1fr;}
       header h1{font-size:34px;}
     }
+/* ===== LIGHTBOX (ИСПРАВЛЕНИЕ) ===== */
+.lightbox{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999; /* 🔥 ПОВЕРХ ВСЕГО */
+}
+
+.lightbox.open{
+  display: flex;
+}
+
+.lightbox img{
+  max-width: 95vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
   </style>
 </head>
 
