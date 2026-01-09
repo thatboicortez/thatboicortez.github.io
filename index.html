@@ -86,18 +86,63 @@
   </header>
 
   <section>
-    <h2>Gallery</h2>
-    <div class="gallery">
-      <img src="https://via.placeholder.com/600x400?text=Work+1" alt="Work 1">
-      <img src="https://via.placeholder.com/600x400?text=Work+2" alt="Work 2">
-      <img src="https://via.placeholder.com/600x400?text=Work+3" alt="Work 3">
-      <img src="https://via.placeholder.com/600x400?text=Work+4" alt="Work 4">
-    </div>
-  </section>
+  <h2 id="gallery-title">Gallery</h2>
 
-  <section>
-    <h2>Contacts</h2>
-    <div class="contacts">
-      <a href="mailto:your@email.com">Email</a>
-      <a href="https://t.me/username" target="_blank">Telegram</a>
-      <a href="https://instagr
+  <!-- Folders -->
+  <div id="folders" class="gallery">
+    <div class="folder" onclick="openFolder('wallpapers')">
+      📁 Wallpapers
+    </div>
+  </div>
+
+  <!-- Images -->
+  <div id="images" class="gallery" style="display:none;"></div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button id="backBtn" onclick="goBack()" style="display:none;">← Back</button>
+  </div>
+</section>
+
+
+ <section>
+  <h2>Contacts</h2>
+  <div class="contacts">
+    <a href="mailto:youremail.com">Email</a>
+    <a href="https://t.me/username" target="_blank">Telegram</a>
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+  </div>
+</section>
+
+<script>
+  const data = {
+    wallpapers: [
+      "gallery/wallpapers/photo_2026-01-09_14-13-23.jpg"
+    ]
+  };
+
+  function openFolder(name) {
+    document.getElementById("folders").style.display = "none";
+    document.getElementById("images").style.display = "grid";
+    document.getElementById("backBtn").style.display = "inline-block";
+    document.getElementById("gallery-title").innerText = "Wallpapers";
+
+    const imagesDiv = document.getElementById("images");
+    imagesDiv.innerHTML = "";
+
+    data[name].forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      imagesDiv.appendChild(img);
+    });
+  }
+
+  function goBack() {
+    document.getElementById("folders").style.display = "grid";
+    document.getElementById("images").style.display = "none";
+    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("gallery-title").innerText = "Gallery";
+  }
+</script>
+
+</body>
+</html>
