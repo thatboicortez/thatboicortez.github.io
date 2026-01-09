@@ -89,11 +89,26 @@
   <h2 id="gallery-title">Gallery</h2>
 
   <!-- Folders -->
-  <div id="folders" class="gallery">
-    <div class="folder" onclick="openFolder('wallpapers')">
-      📁 Wallpapers
+<div id="folders" class="folders-grid">
+
+  <div class="folder-card" onclick="openFolder('wallpapers')">
+    <div class="folder-thumb">
+      <img src="gallery/wallpapers/photo_2026-01-09_14-13-23.jpg" alt="Wallpapers preview">
     </div>
+    <div class="folder-title">Wallpapers</div>
   </div>
+
+  <!-- Добавишь потом другие папки так же:
+  <div class="folder-card" onclick="openFolder('anime')">
+    <div class="folder-thumb">
+      <img src="gallery/anime/preview.jpg" alt="Anime preview">
+    </div>
+    <div class="folder-title">Anime</div>
+  </div>
+  -->
+
+</div>
+
 
   <!-- Images -->
   <div id="images" class="gallery" style="display:none;"></div>
