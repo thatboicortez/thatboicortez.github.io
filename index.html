@@ -41,10 +41,16 @@
 }
 
 /* затемнение + виньетка */
+header{
+  position: relative;
+  z-index: 1;
+}
+
 header::before{
   content:"";
-  position:absolute;
-  inset:0;
+  position: absolute;        /* 🔥 ОБЯЗАТЕЛЬНО */
+  inset: 0;
+
   background:
     radial-gradient(
       ellipse at center,
@@ -57,7 +63,14 @@ header::before{
       rgba(0,0,0,0.25),
       rgba(0,0,0,0.45)
     );
-  z-index:0;
+
+  z-index: 0;                /* 🔥 ПОД ТЕКСТОМ */
+  pointer-events: none;      /* 🔥 ЧТОБЫ КЛИКИ РАБОТАЛИ */
+}
+
+header > *{
+  position: relative;
+  z-index: 1;
 }
 
 /* текст поверх затемнения */
