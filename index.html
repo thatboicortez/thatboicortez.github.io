@@ -5,7 +5,6 @@
   <title>Perfect Schilders & Decoratie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/favicon.png">
-</head>
 
   <!-- ШРИФТЫ (бесплатно) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,123 +23,6 @@
     }
 
     *{ box-sizing:border-box; }
-    
-    /* ===== АНИМАЦИИ ПАПОК ===== */
-
-/* базовая “пружина” */
-.folder-card{
-  will-change: transform, box-shadow, border-color;
-  transform: translateY(0) scale(1);
-}
-
-/* эффект появления (stagger) */
-.folder-card{
-  opacity: 0;
-  transform: translateY(14px) scale(0.98);
-  animation: folderIn 0.7s cubic-bezier(.2,.9,.2,1) forwards;
-  animation-delay: calc(var(--i, 0) * 0.08s);
-}
-
-@keyframes folderIn{
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* hover: аккуратный “подъём” + тень */
-.folder-card:hover{
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 18px 50px rgba(0,0,0,0.55);
-}
-
-/* мягкий наклон на больших экранах */
-@media (hover: hover){
-  .folder-card:hover{
-    transform: translateY(-6px) scale(1.01) rotateX(2deg);
-  }
-}
-
-/* “shine” блик по превью */
-.folder-thumb{
-  position: relative;
-}
-
-.folder-thumb::after{
-  content:"";
-  position:absolute;
-  inset:-40%;
-  background: linear-gradient(
-    120deg,
-    transparent 30%,
-    rgba(255,255,255,0.18) 45%,
-    transparent 60%
-  );
-  transform: translateX(-60%) rotate(10deg);
-  opacity: 0;
-  pointer-events:none;
-}
-
-.folder-card:hover .folder-thumb::after{
-  opacity: 1;
-  animation: shine 0.9s ease forwards;
-}
-
-@keyframes shine{
-  from { transform: translateX(-60%) rotate(10deg); }
-  to   { transform: translateX(60%) rotate(10deg); }
-}
-
-/* иконка папки: лёгкий “поп” */
-.folder-icon{
-  transition: transform .25s ease, opacity .25s ease;
-  opacity: 0.9;
-}
-.folder-card:hover .folder-icon{
-  transform: scale(1.08);
-  opacity: 1;
-}
-
-/* панель снизу: чуть подсвечивать */
-.folder-bar{
-  transition: background .25s ease, border-color .25s ease;
-}
-.folder-card:hover .folder-bar{
-  background: rgba(0,0,0,0.45);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.folder-card:active{
-  transform: translateY(-1px) scale(0.985);
-}
-
-.folder-card.is-opening{
-  transform: translateY(-1px) scale(0.985);
-}
-    /* hover: чуть приподнимается и “приближается” */
-.folder-card{
-  transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
-  will-change: transform;
-}
-
-.folder-card:hover{
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 18px 45px rgba(0,0,0,0.55);
-}
-    /* клик / открытие */
-.folder-card:active,
-.folder-card.is-opening{
-  transform: translateY(-1px) scale(0.985);
-}
-
-
-/* уважение к настройке “reduce motion” */
-@media (prefers-reduced-motion: reduce){
-  .folder-card,
-  .folder-thumb::after{
-    animation: none !important;
-    transition: none !important;
-  }
-  .folder-card{ opacity:1; transform:none; }
-}
-
 
     body{
       margin:0;
@@ -148,62 +30,41 @@
       background: var(--bg);
       color: var(--text);
     }
-  header{
-  position: relative;
-  z-index: 1;
-  padding: 70px 20px 55px;
-  text-align:center;
-  overflow: hidden;
 
-  /* картинка */
-  background: url("header-bg.png") center / cover no-repeat;
-}
+    /* ===== HEADER (фон + overlay) ===== */
+    header{
+      position: relative;
+      z-index: 1;
+      padding: 70px 20px 55px;
+      text-align:center;
+      overflow: hidden;
+      background: url("header-bg.png") center / cover no-repeat;
+    }
 
-header::before{
-  content:"";
-  position: absolute;        /* 🔥 ОБЯЗАТЕЛЬНО */
-  inset: 0;
+    header::before{
+      content:"";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(0,0,0,0.05) 0%,
+          rgba(0,0,0,0.35) 70%,
+          rgba(0,0,0,0.55) 100%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,0.25),
+          rgba(0,0,0,0.45)
+        );
+      z-index: 0;
+      pointer-events: none; /* чтобы клики работали */
+    }
 
-  background:
-    radial-gradient(
-      ellipse at center,
-      rgba(0,0,0,0.05) 0%,
-      rgba(0,0,0,0.35) 70%,
-      rgba(0,0,0,0.55) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,0.25),
-      rgba(0,0,0,0.45)
-    );
-
-  z-index: 0;                /* 🔥 ПОД ТЕКСТОМ */
-  pointer-events: none;      /* 🔥 ЧТОБЫ КЛИКИ РАБОТАЛИ */
-}
-
-/* ===== АНИМАЦИЯ НАЖАТИЯ ПАПКИ ===== */
-.folder-card{
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.folder-card:active{
-  transform: translateY(-1px) scale(0.985);
-}
-
-.folder-card.is-opening{
-  transform: translateY(-1px) scale(0.985);
-}
-
-header > *{
-  position: relative;
-  z-index: 1;
-}
-
-/* текст поверх затемнения */
-header > *{
-  position: relative;
-  z-index: 1;
-}
+    header > *{
+      position: relative;
+      z-index: 1;
+    }
 
     header h1{
       font-size:42px;
@@ -211,131 +72,58 @@ header > *{
       letter-spacing: 0.3px;
       font-weight: 700;
     }
-    header p{
-      margin:0;
-      color: var(--muted);
-      font-size:18px;
-      font-weight: 400;
+
+    /* ===== СЛОГАН (одна версия, без дублей) ===== */
+    @keyframes sloganFadeUp {
+      from { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+      to   { opacity: 1; transform: translateY(0);   filter: blur(0); }
     }
-    
-    /* ===== Анимация появления слогана ===== */
-@keyframes sloganFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-    filter: blur(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
 
-.slogan {
-  margin-top: 26px;
-  display: grid;
-  gap: 10px;
-  justify-items: center;
+    .slogan{
+      margin-top: 26px;
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      animation: sloganFadeUp 900ms ease-out both;
+      animation-delay: 120ms;
+    }
 
-  animation: sloganFadeUp 900ms ease-out both;
-  animation-delay: 120ms;
-}
+    .slogan-small{
+      font-size: 14px;
+      color: rgba(255,255,255,0.78);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      animation: sloganFadeUp 900ms ease-out both;
+      animation-delay: 180ms;
+    }
 
-.slogan-small {
-  font-size: 14px;
-  color: rgba(255,255,255,0.78);
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  font-weight: 500;
+    .slogan-big{
+      font-size: clamp(32px, 6vw, 64px);
+      line-height: 1.1;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      font-weight: 300;
+      color: #fff;
+      text-align: center;
+      padding: 0 20px;
+      margin: 0 auto;
+      animation: sloganFadeUp 1000ms ease-out both;
+      animation-delay: 260ms;
+    }
 
-  animation: sloganFadeUp 900ms ease-out both;
-  animation-delay: 180ms;
-}
+    .slogan-line{
+      width: 140px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+      margin-top: 12px;
+      animation: sloganFadeUp 1100ms ease-out both;
+      animation-delay: 360ms;
+    }
 
-.slogan-big {
-  font-size: clamp(32px, 6vw, 64px);
-  line-height: 1.1;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  font-weight: 300;
-  color: #fff;
-  text-align: center;
-
-  animation: sloganFadeUp 1000ms ease-out both;
-  animation-delay: 260ms;
-}
-
-.slogan-line {
-  width: 140px;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255,255,255,0.6),
-    transparent
-  );
-  margin-top: 12px;
-
-  animation: sloganFadeUp 1100ms ease-out both;
-  animation-delay: 360ms;
-}
-
-/* Уважение к reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  .slogan,
-  .slogan-small,
-  .slogan-big,
-  .slogan-line {
-    animation: none !important;
-  }
-}
-
-
-/* ===== СЛОГАН PRO ===== */
-.slogan{
-  margin-top: 30px;
-  display: grid;
-  gap: 14px;
-  justify-items: center;
-}
-
-.slogan-small{
-  font-size: 14px;
-  color: rgba(255,255,255,0.75);
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.slogan-big{
-  font-size: clamp(32px, 7vw, 64px);
-  line-height: 1.1;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  font-weight: 200;
-  color: #fff;
-
-  text-align: center;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.slogan-big span{
-  font-weight: 300;
-}
-
-.slogan-line{
-  width: 120px;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255,255,255,0.6),
-    transparent
-  );
-  margin-top: 6px;
-}
+    @media (prefers-reduced-motion: reduce) {
+      .slogan, .slogan-small, .slogan-big, .slogan-line { animation: none !important; }
+    }
 
     section{
       padding:60px 20px;
@@ -350,7 +138,7 @@ header > *{
       font-weight: 700;
     }
 
-    /* ===== Папки (Windows-like cards) ===== */
+    /* ===== Папки (карточки) ===== */
     #folders.folders-grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -359,20 +147,46 @@ header > *{
       margin: 0 auto;
     }
 
+    /* БАЗОВЫЙ ВИД + АНИМАЦИЯ ПОЯВЛЕНИЯ + HOVER (ОДИН РАЗ) */
     .folder-card{
       cursor:pointer;
       background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 18px;
       overflow:hidden;
-      transition: transform .18s ease, border-color .18s ease;
       box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    }
-    .folder-card:hover{
-      transform: translateY(-3px);
-      border-color: rgba(255,255,255,0.16);
+
+      /* появление */
+      opacity: 0;
+      transform: translateY(14px) scale(0.98);
+      animation: folderIn 0.7s cubic-bezier(.2,.9,.2,1) forwards;
+      animation-delay: calc(var(--i, 0) * 0.08s);
+
+      /* плавность */
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      will-change: transform, box-shadow;
     }
 
+    @keyframes folderIn{
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ВОТ ТО, ЧТО ТЫ ХОЧЕШЬ: поднимается ВСЯ плитка */
+    @media (hover: hover) and (pointer: fine){
+      .folder-card:hover{
+        transform: translateY(-8px) scale(1.03);
+        border-color: rgba(255,255,255,0.16);
+        box-shadow: 0 22px 60px rgba(0,0,0,0.60);
+      }
+    }
+
+    /* Клик/тап (телефон тоже) */
+    .folder-card:active,
+    .folder-card.is-opening{
+      transform: translateY(-3px) scale(1.01);
+    }
+
+    /* “shine” блик по превью */
     .folder-thumb{
       width:100%;
       aspect-ratio: 16/10;
@@ -380,14 +194,37 @@ header > *{
       overflow:hidden;
       position:relative;
     }
+
     .folder-thumb img{
       width:100%;
       height:100%;
       object-fit: cover;
       filter: saturate(1.05) contrast(1.05);
       transform: scale(1.02);
+      display:block;
     }
 
+    .folder-thumb::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 45%, transparent 60%);
+      transform: translateX(-60%) rotate(10deg);
+      opacity: 0;
+      pointer-events:none;
+    }
+
+    .folder-card:hover .folder-thumb::after{
+      opacity: 1;
+      animation: shine 0.9s ease forwards;
+    }
+
+    @keyframes shine{
+      from { transform: translateX(-60%) rotate(10deg); }
+      to   { transform: translateX(60%) rotate(10deg); }
+    }
+
+    /* нижняя панель */
     .folder-bar{
       display:flex;
       align-items:center;
@@ -396,12 +233,27 @@ header > *{
       background: rgba(0,0,0,0.35);
       border-top: 1px solid rgba(255,255,255,0.08);
       backdrop-filter: blur(6px);
+      transition: background .25s ease, border-color .25s ease;
     }
+
+    .folder-card:hover .folder-bar{
+      background: rgba(0,0,0,0.45);
+      border-color: rgba(255,255,255,0.14);
+    }
+
     .folder-icon{
       width:18px;
       height:18px;
       display:inline-block;
+      transition: transform .25s ease, opacity .25s ease;
+      opacity: 0.9;
     }
+
+    .folder-card:hover .folder-icon{
+      transform: scale(1.08);
+      opacity: 1;
+    }
+
     .folder-title{
       font-size:16px;
       color:#fff;
@@ -409,7 +261,16 @@ header > *{
       letter-spacing:0.2px;
     }
 
-    /* ===== Картинки внутри папки (маленькие квадраты 3 в ряд) ===== */
+    /* reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .folder-card, .folder-thumb::after{
+        animation: none !important;
+        transition: none !important;
+      }
+      .folder-card{ opacity:1; transform:none; }
+    }
+
+    /* ===== Картинки внутри папки ===== */
     #images.images-grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -437,7 +298,7 @@ header > *{
       display:block;
     }
 
-    /* ===== Кнопка Back ===== */
+    /* ===== Back ===== */
     .center-actions{
       text-align:center;
       margin-top:28px;
@@ -473,13 +334,6 @@ header > *{
     }
     .contacts a:hover{
       text-decoration: underline;
-    }
-
-    footer{
-      text-align:center;
-      padding:30px;
-      color:#666;
-      font-size:14px;
     }
 
     /* ===== Лайтбокс ===== */
@@ -520,26 +374,22 @@ header > *{
   <header>
     <h1>Perfect Schilders & Decoratie</h1>
 
-    <!-- СЛОГАН -->
-<div class="slogan">
-  <div class="slogan-small">Quality You Can Trust</div>
- <div class="slogan-big">
-  Transform&nbsp;Your<br>
-  Home&nbsp;Today
-</div>
+    <div class="slogan">
+      <div class="slogan-small">Quality You Can Trust</div>
 
-  <div class="slogan-line"></div>
-</div>
+      <div class="slogan-big">
+        Transform&nbsp;Your<br>
+        Home&nbsp;Today
+      </div>
 
+      <div class="slogan-line"></div>
+    </div>
   </header>
 
   <section>
     <h2 id="gallery-title">Our works</h2>
 
-    <!-- Папки -->
     <div id="folders" class="folders-grid"></div>
-
-    <!-- Картинки -->
     <div id="images" class="images-grid" style="display:none;"></div>
 
     <div class="center-actions">
@@ -555,33 +405,22 @@ header > *{
     </div>
   </section>
 
-  <!-- Лайтбокс -->
   <div id="lightbox" class="lightbox" onclick="closeLightbox()">
     <img id="lightboxImg" src="" alt="preview">
   </div>
 
   <script>
-    /**
-     * ДОБАВЛЯЕШЬ ПАПКИ ТОЛЬКО ЗДЕСЬ:
-     *  - title: название папки
-     *  - preview: картинка-превью на папке
-     *  - images: список картинок внутри папки
-     */
-    const folders = { 
+    const folders = {
       plaster: {
         title: "Plaster",
         preview: "previews/plaster-preview.png",
-        images: [
-         
-        ]
+        images: []
       },
 
       decorative_plaster: {
         title: "Decorative plaster",
         preview: "previews/decorativeplaster-preview.png",
-        images: [
-          
-        ]
+        images: []
       },
 
       wallpapers: {
@@ -591,13 +430,11 @@ header > *{
           "gallery/wallpapers/photo_2026-01-09_14-13-23.jpg"
         ]
       },
-      
+
       laminate: {
         title: "Laminate",
         preview: "previews/laminate-preview.png",
-        images: [
-          
-        ]
+        images: []
       }
     };
 
@@ -606,41 +443,24 @@ header > *{
     const backBtn    = document.getElementById("backBtn");
     const titleEl    = document.getElementById("gallery-title");
 
-    function folderCardHTML(key, obj){
-      return `
-        <div class="folder-card" onclick="openFolderClick(this,'${key}')">
-          <div class="folder-thumb">
-            <img src="${obj.preview}" alt="${obj.title} preview">
+    function renderFolders(){
+      foldersDiv.innerHTML = Object.entries(folders)
+        .map(([key, obj], idx) => `
+          <div class="folder-card" style="--i:${idx}" onclick="openFolderClick(this, '${key}')">
+            <div class="folder-thumb">
+              <img src="${obj.preview}" alt="${obj.title} preview">
+            </div>
+            <div class="folder-bar">
+              <svg class="folder-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M3 7.5C3 6.12 4.12 5 5.5 5H9.2c.54 0 1.06.21 1.44.59l1.1 1.1c.38.38.9.59 1.44.59H18.5C19.88 7.28 21 8.4 21 9.78V17.5C21 18.88 19.88 20 18.5 20H5.5C4.12 20 3 18.88 3 17.5V7.5Z"
+                      stroke="rgba(255,255,255,0.9)" stroke-width="1.5" />
+              </svg>
+              <div class="folder-title">${obj.title}</div>
+            </div>
           </div>
-          <div class="folder-bar">
-            <svg class="folder-icon" viewBox="0 0 24 24" fill="none">
-              <path d="M3 7.5C3 6.12 4.12 5 5.5 5H9.2c.54 0 1.06.21 1.44.59l1.1 1.1c.38.38.9.59 1.44.59H18.5C19.88 7.28 21 8.4 21 9.78V17.5C21 18.88 19.88 20 18.5 20H5.5C4.12 20 3 18.88 3 17.5V7.5Z"
-                    stroke="rgba(255,255,255,0.9)" stroke-width="1.5" />
-            </svg>
-            <div class="folder-title">${obj.title}</div>
-          </div>
-        </div>
-      `;
+        `)
+        .join("");
     }
-
-function renderFolders(){
-  foldersDiv.innerHTML = Object.entries(folders)
-    .map(([key, obj], idx) => `
-      <div class="folder-card" style="--i:${idx}" onclick="openFolderClick(this, '${key}')">
-        <div class="folder-thumb">
-          <img src="${obj.preview}" alt="${obj.title} preview">
-        </div>
-        <div class="folder-bar">
-          <svg class="folder-icon" viewBox="0 0 24 24" fill="none">
-            <path d="M3 7.5C3 6.12 4.12 5 5.5 5H9.2c.54 0 1.06.21 1.44.59l1.1 1.1c.38.38.9.59 1.44.59H18.5C19.88 7.28 21 8.4 21 9.78V17.5C21 18.88 19.88 20 18.5 20H5.5C4.12 20 3 18.88 3 17.5V7.5Z"
-                  stroke="rgba(255,255,255,0.9)" stroke-width="1.5" />
-          </svg>
-          <div class="folder-title">${obj.title}</div>
-        </div>
-      </div>
-    `)
-    .join("");
-}
 
     function openFolder(key){
       const f = folders[key];
@@ -661,22 +481,19 @@ function renderFolders(){
       });
     }
 
-   function openFolderClick(card, key){
-       card.classList.add("is-opening");
-
-       setTimeout(() => {
-          openFolder(key);
-         card.classList.remove("is-opening"); // 👈 ОБЯЗАТЕЛЬНО
-       }, 140);
+    function openFolderClick(card, key){
+      card.classList.add("is-opening");
+      setTimeout(() => {
+        openFolder(key);
+        card.classList.remove("is-opening");
+      }, 140);
     }
-
-
 
     function goBack(){
       foldersDiv.style.display = "grid";
       imagesDiv.style.display  = "none";
       backBtn.style.display    = "none";
-      titleEl.innerText        = "Gallery";
+      titleEl.innerText        = "Our works";
       imagesDiv.innerHTML = "";
     }
 
@@ -694,13 +511,11 @@ function renderFolders(){
       img.src = "";
     }
 
-    // Esc закрывает лайтбокс
     document.addEventListener("keydown", (e) => {
       if(e.key === "Escape") closeLightbox();
     });
 
     renderFolders();
   </script>
-
 </body>
 </html>
