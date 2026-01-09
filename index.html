@@ -47,6 +47,80 @@
       font-size:18px;
       font-weight: 400;
     }
+    
+    /* ===== Анимация появления слогана ===== */
+@keyframes sloganFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.slogan {
+  margin-top: 26px;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+
+  animation: sloganFadeUp 900ms ease-out both;
+  animation-delay: 120ms;
+}
+
+.slogan-small {
+  font-size: 14px;
+  color: rgba(255,255,255,0.78);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 500;
+
+  animation: sloganFadeUp 900ms ease-out both;
+  animation-delay: 180ms;
+}
+
+.slogan-big {
+  font-size: clamp(32px, 6vw, 64px);
+  line-height: 1.1;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 300;
+  color: #fff;
+  text-align: center;
+
+  animation: sloganFadeUp 1000ms ease-out both;
+  animation-delay: 260ms;
+}
+
+.slogan-line {
+  width: 140px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  margin-top: 12px;
+
+  animation: sloganFadeUp 1100ms ease-out both;
+  animation-delay: 360ms;
+}
+
+/* Уважение к reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .slogan,
+  .slogan-small,
+  .slogan-big,
+  .slogan-line {
+    animation: none !important;
+  }
+}
+
 
 /* ===== СЛОГАН PRO ===== */
 .slogan{
