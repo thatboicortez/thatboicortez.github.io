@@ -361,10 +361,13 @@
   <img id="lightboxImg" src="" alt="" onclick="event.stopPropagation()">
 </div>
 
-<script>
+  <script>
 const folders = {
-  plaster: { title: "Plaster", preview: "previews/plaster-preview.png", images: [] },
-
+  plaster: {
+    title: "Plaster",
+    preview: "previews/plaster-preview.png",
+    images: []
+  },
   decorative_plaster: {
     title: "Decorative plaster",
     preview: "previews/decorativeplaster-preview.png",
@@ -417,14 +420,18 @@ const folders = {
                  "gallery/decorative_plaster/decorative_plaster (46).jpg"
     ]
   },
-
   wallpapers: {
     title: "Wallpapers",
     preview: "previews/wallpapers-preview.png",
-    images: ["gallery/wallpapers/photo_2026-01-09_14-13-23.jpg"]
+    images: [
+      "gallery/wallpapers/photo_2026-01-09_14-13-23.jpg"
+    ]
   },
-
-  laminate: { title: "Laminate", preview: "previews/laminate-preview.png", images: [] }
+  laminate: {
+    title: "Laminate",
+    preview: "previews/laminate-preview.png",
+    images: []
+  }
 };
 
 const foldersDiv = document.getElementById("folders");
@@ -432,24 +439,21 @@ const imagesDiv  = document.getElementById("images");
 const backBtn    = document.getElementById("backBtn");
 const titleEl    = document.getElementById("gallery-title");
 
-// ---------- UI helpers (без history) ----------
 function renderFolders(){
-  foldersDiv.innerHTML = Object.entries(folders)
-    .map(([k, o], i) => `
-      <div class="folder-card" style="--i:${i}" onclick="openFolderClick(this,'${k}')">
-        <div class="folder-thumb">
-          <img src="${o.preview}" alt="${o.title} preview">
-        </div>
-        <div class="folder-bar">
-          <svg class="folder-icon" viewBox="0 0 24 24" fill="none">
-            <path d="M3 7.5C3 6.12 4.12 5 5.5 5H9.2c.54 0 1.06.21 1.44.59l1.1 1.1c.38.38.9.59 1.44.59H18.5C19.88 7.28 21 8.4 21 9.78V17.5C21 18.88 19.88 20 18.5 20H5.5C4.12 20 3 18.88 3 17.5V7.5Z"
-              stroke="rgba(255,255,255,0.9)" stroke-width="1.5" />
-          </svg>
-          <div class="folder-title">${o.title}</div>
-        </div>
+  foldersDiv.innerHTML = Object.entries(folders).map(([key, obj], idx) => `
+    <div class="folder-card" style="--i:${idx}" onclick="openFolderClick(this,'${key}')">
+      <div class="folder-thumb">
+        <img src="${obj.preview}" alt="${obj.title} preview">
       </div>
-    `)
-    .join("");
+      <div class="folder-bar">
+        <svg class="folder-icon" viewBox="0 0 24 24" fill="none">
+          <path d="M3 7.5C3 6.12 4.12 5 5.5 5H9.2c.54 0 1.06.21 1.44.59l1.1 1.1c.38.38.9.59 1.44.59H18.5C19.88 7.28 21 8.4 21 9.78V17.5C21 18.88 19.88 20 18.5 20H5.5C4.12 20 3 18.88 3 17.5V7.5Z"
+                stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+        </svg>
+        <div class="folder-title">${obj.title}</div>
+      </div>
+    </div>
+  `).join("");
 }
 
 function showHome(){
@@ -479,27 +483,32 @@ function showFolderUI(key){
   });
 }
 
-// ---------- History-aware actions ----------
+// ✅ Открыть папку — через hash (надежно для кнопки Back)
 function openFolder(key){
-  // пушим состояние папки (теперь кнопка браузера Back вернёт на главную страницу сайта)
-  history.pushState({ page: "folder", key }, "", "#" + key);
-  showFolderUI(key);
+  location.hash = key;
 }
 
+// Небольшая анимация клика
 function openFolderClick(card, key){
   card.classList.add("is-opening");
   setTimeout(() => {
-    card.classList.remove("is-opening");
     openFolder(key);
+    card.classList.remove("is-opening");
   }, 140);
 }
 
-// КНОПКА Back на сайте: используем системный history.back()
 function goBack(){
-  history.back();
+  location.hash = "";
 }
 
-// ---------- Lightbox ----------
+// Роутинг по hash
+function handleRoute(){
+  const key = (location.hash || "").replace("#", "");
+  if (key && folders[key]) showFolderUI(key);
+  else showHome();
+}
+
+// Лайтбокс
 function openLightbox(src){
   document.getElementById("lightboxImg").src = src;
   document.getElementById("lightbox").classList.add("open");
@@ -514,33 +523,14 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeLightbox();
 });
 
-// Обработка кнопок браузера Back/Forward
-window.addEventListener("popstate", (e) => {
-  // если вернулись в состояние папки — открыть её
-  if (e.state && e.state.page === "folder" && e.state.key) {
-    showFolderUI(e.state.key);
-    return;
-  }
-  // иначе показать главную галерею
-  showHome();
-});
+// hashchange = работает и для кнопки Back в браузере
+window.addEventListener("hashchange", handleRoute);
 
-// ---------- Init ----------
+// init
 renderFolders();
-
-// стартовое состояние (важно!)
-history.replaceState({ page: "home" }, "", location.pathname);
-
-// если открыли сайт сразу по ссылке с #папка (например .../#wallpapers)
-const hashKey = (location.hash || "").replace("#", "");
-if (hashKey && folders[hashKey]) {
-  history.replaceState({ page: "folder", key: hashKey }, "", "#" + hashKey);
-  showFolderUI(hashKey);
-} else {
-  showHome();
-}
-});
-
+handleRoute();
+    
 </script>
+  
 </body>
 </html>
