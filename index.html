@@ -452,7 +452,7 @@ function openFolder(k){
   f.images.forEach(s=>{
     const d=document.createElement("div");
     d.className="img-tile";
-    d.innerHTML=`<img src="${s}">`;
+    d.innerHTML = `<img src="${s}" loading="lazy" alt="">`;
     d.onclick=()=>openLightbox(s);
     imagesDiv.appendChild(d);
   });
