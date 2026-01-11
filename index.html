@@ -369,14 +369,20 @@
   left: 18px;                   /* стрелка всегда по краю */
   top: 50%;
   transform: translateY(-50%);
-  line-height: 0.85;
 }
 
 .lb-next{
   right: 18px;                  /* стрелка всегда по краю */
   top: 50%;
   transform: translateY(-50%);
+}
+
+.lb-prev,
+.lb-next{
   line-height: 0.85;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lb-counter{
