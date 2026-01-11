@@ -367,22 +367,23 @@
 
 .lb-prev{
   left: 18px;                   /* стрелка всегда по краю */
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .lb-next{
   right: 18px;                  /* стрелка всегда по краю */
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .lb-prev,
 .lb-next{
-  line-height: 0.85;
+  top: 50%;
+  transform: translateY(-50%);
+  
   display: flex;
   align-items: center;
   justify-content: center;
+
+  line-height: 0.85;
+  padding-bottom: 4px; /* пробуй 2–6px */
 }
 
 .lb-counter{
