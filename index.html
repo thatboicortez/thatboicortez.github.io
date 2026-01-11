@@ -739,10 +739,15 @@ lb.addEventListener("touchend", (e) => {
 window.addEventListener("hashchange", handleRoute);
 
 // ⬅️ Back в браузере: если открыт лайтбокс — закрываем ТОЛЬКО его
-window.addEventListener("popstate", () => {
-  if (document.getElementById("lightbox").classList.contains("open")) {
+window.addEventListener("hashchange", () => {
+  // 1. Если открыт лайтбокс — закрываем ТОЛЬКО его
+  if (lightbox.classList.contains("open")) {
     closeLightbox();
+    return; // ⛔ дальше не идём
   }
+
+  // 2. Иначе — обычная навигация по папкам
+  handleRoute();
 });
 
 /* ===== init ===== */
